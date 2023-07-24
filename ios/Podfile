@@ -1,0 +1,114 @@
+$RNFirebaseAsStaticFramework = true
+$RNFirebaseAnalyticsWithoutAdIdSupport=true
+$FirebaseSDKVersion = '9.2.0'
+
+use_frameworks!
+
+require_relative '../node_modules/react-native/scripts/react_native_pods'
+require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+
+platform :ios, '10.0'
+
+target 'ptgsaleonmobile' do
+  config = use_native_modules!
+
+  use_react_native!(
+    :path => config[:reactNativePath],
+    # to enable hermes on iOS, change `false` to `true` and then install pods
+    :hermes_enabled => false
+  )
+
+pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
+
+  # pod 'ReactNativeART', :path => '../node_modules/@react-native-community/art'
+  pod 'FirebaseAnalytics'
+  pod 'FirebaseAuth'
+  pod 'FirebaseFirestore'
+  
+  pod 'react-native-config', :path => '../node_modules/react-native-config'
+
+  pod 'react-native-encrypted-storage', :path => '../node_modules/react-native-encrypted-storage'
+  pod 'RNDateTimePicker', :path => '../node_modules/@react-native-community/datetimepicker'
+
+  pod 'react-native-maps', :path => '../node_modules/react-native-maps'
+
+  pod 'react-native-geolocation', :path => '../node_modules/@react-native-community/geolocation'
+
+  pod 'react-native-view-shot', :path => '../node_modules/react-native-view-shot'
+
+  pod 'rn-fetch-blob', :path => '../node_modules/rn-fetch-blob'
+
+  pod 'RNFileViewer', :path => '../node_modules/react-native-file-viewer'
+
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+
+  # $static_framework = ['FlipperKit', 'Flipper', 'Flipper-Folly',
+  # 'CocoaAsyncSocket', 'ComponentKit', 'DoubleConversion',
+  # 'glog', 'Flipper-PeerTalk', 'Flipper-RSocket', 'Yoga', 'YogaKit',
+  # 'CocoaLibEvent', 'OpenSSL-Universal', 'boost-for-react-native']
+
+  # pre_install do |installer|
+  #   Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) {}
+  #   installer.pod_targets.each do |pod|
+  #       if $static_framework.include?(pod.name)
+  #         def pod.build_type;
+  #           Pod::BuildType.static_library
+  #         end
+  #       end
+  #   end
+  # end
+
+  pre_install do |installer|
+    installer.pod_targets.each do |pod|
+      if pod.name.eql?('RNCMaskedView')
+        def pod.build_type
+          Pod::BuildType.static_library
+        end
+      end
+      if pod.name.eql?('RNSVG')
+        def pod.build_type
+          Pod::BuildType.static_library
+        end
+      end
+      if pod.name.eql?('react-native-view-shot')
+        def pod.build_type
+          Pod::BuildType.static_library
+        end
+      end
+    end
+  end
+
+
+  target 'ptgsaleonmobileTests' do
+    inherit! :complete
+    # Pods for testing
+  end
+
+  # Enables Flipper.
+  #
+  # Note that if you have use_frameworks! enabled, Flipper will not work and
+  # you should disable the next line.
+  # use_flipper!()
+
+  post_install do |installer|
+    # installer.pods_project.targets.each do |target|
+    #   target.build_configurations.each do |config|
+    #     config.build_settings['ENABLE_BITCODE'] = 'NO'
+    #     config.build_settings['ONLY_ACTIVE_ARCH'] = 'YES'
+    #   end
+    # end
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings['BUILD_LIBRARY_FOR_DISTRIBUTION'] = 'YES'
+      end
+      if (target.name&.eql?('FBReactNativeSpec'))
+        target.build_phases.each do |build_phase|
+          if (build_phase.respond_to?(:name) && build_phase.name.eql?('[CP-User] Generate Specs'))
+            target.build_phases.move(build_phase, 0)
+          end
+        end
+      end
+    end
+    react_native_post_install(installer)
+  end
+end

@@ -1,0 +1,10 @@
+diff a/src/components/card/Cardcollapsible.js b/src/components/card/Cardcollapsible.js	(rejected hunks)
+@@ -64,7 +64,7 @@
+                 }
+               </View> 
+             </CardItem>
+-            <CardItem button onPress={() => navigation.navigate(Nav)} style={[styles.styleShadow,styles.CompanyArea]}>
++            <CardItem  onPress={() => navigation.navigate(Nav)} style={[styles.styleShadow,styles.CompanyArea]}>
+               <Body style={{flex: 1 ,justifyContent:'space-around'}}>
+                 <View >
+                   <Text numberOfLines={2} style={{fontSize:18}}>{companyName}</Text>

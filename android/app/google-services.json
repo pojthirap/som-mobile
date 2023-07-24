@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "858408563334",
+    "project_id": "ptg-sale-on-mobile",
+    "storage_bucket": "ptg-sale-on-mobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:858408563334:android:597ba50b1d76b344771707",
+        "android_client_info": {
+          "package_name": "com.ptgsaleonmobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "858408563334-fba9sntfepn9id0ivpotq2orhpffcah9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAe1_yQflTfIeBL0Ai6_s4gJXqYBqpCYUY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "858408563334-fba9sntfepn9id0ivpotq2orhpffcah9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
